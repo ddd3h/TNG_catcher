@@ -4,7 +4,7 @@ try:
     import pandas as pd
     import os
     import matplotlib.pyplot as plt
-    from matplotlib.colors import LogNorm
+    from matplotlib.colors import SymLogNorm
 
             
 except ModuleNotFoundError:
@@ -210,7 +210,7 @@ class plot_tools:
         hist, xed, yed = np.histogram2d(x, y, bins=(xbins, ybins), weights=z)
         if fast:
             if log:
-                plt.imshow(hist.T, origin='lower', norm=LogNorm(vmin=hist[hist>0].min(), vmax=hist.max()))
+                plt.imshow(hist.T, origin='lower', norm=SymLogNorm(linthresh=hist[hist>0].min(),vmin=hist[hist>0].min(), vmax=hist.max()))
                 plt.axis("off")
                 plt.colorbar()
                 plt.show()
@@ -221,7 +221,7 @@ class plot_tools:
                 plt.show()
         else:
             if log:
-                plt.pcolormesh(xed, yed, hist.T, norm=LogNorm(vmin=hist[hist>0].min(), vmax=hist.max()))
+                plt.pcolormesh(xed, yed, hist.T, norm=SymLogNorm(linthresh=hist[hist>0].min(),vmin=hist[hist>0].min(), vmax=hist.max()))
                 plt.colorbar()
                 plt.show()
             else:
@@ -232,7 +232,7 @@ class plot_tools:
         if savefig:
             counter = 0
             if log:
-                plt.pcolormesh(xed, yed, hist.T, norm=LogNorm(vmin=hist[hist>0].min(), vmax=hist.max()))
+                plt.pcolormesh(xed, yed, hist.T, norm=SymLogNorm(linthresh=hist[hist>0].min(),vmin=hist[hist>0].min(), vmax=hist.max()))
                 plt.colorbar()
                 while os.path.exists(savefig):
                     counter += 1
