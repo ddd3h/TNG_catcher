@@ -27,7 +27,7 @@ else:
 class extract_subhalo_data:
     def __init__(self, basePath):
         self.basePath = basePath
-        self.FoFnum = 0.5  # default
+        self.FoFnum = 1  # default
         self.plottype = 0  # default (plot type: gas)
         self.output_dirname = "cut_data"
         self.output_file_format = "npz"
@@ -119,7 +119,7 @@ class extract_subhalo_data:
                     il.groupcat.loadSingle(self.basePath, self.snapnum, haloID=i)[
                         "Group_R_Crit500"
                     ]
-                    * self.FoFnum * 2
+                    * self.FoFnum
                 )
                 sunhaloData = il.snapshot.loadHalo(
                     self.basePath, self.snapnum, i, self.plottype, fields=self.fields
