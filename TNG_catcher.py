@@ -7,7 +7,6 @@ try:
     from matplotlib.colors import LogNorm
     import glob
 
-
 except ModuleNotFoundError:
     print("The following modules is not installed at least:")
     print("\t- illustris_python")
