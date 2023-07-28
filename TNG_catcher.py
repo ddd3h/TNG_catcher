@@ -383,7 +383,7 @@ class plot_tools:
         print("Cut data.")
 
     def calc_rot(self, n=400_000):
-        if self.__rotation_ok and "Masses" in self.keys():
+        if self.__rotation_ok and "Masses" in self.data.keys():
             if n > len(self.data["Masses"]):
                 n = len(self.data["Masses"])
             else:
@@ -432,6 +432,12 @@ class plot_tools:
             positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
             self.data["x"], self.data["y"], self.data["z"] = self.calc_rot() @ positions
             self.rot_x(90)
+    
+    def output(self,field):
+        if self.__rotation_ok:
+            return self.data["x"], self.data["y"], self.data["z"], self.data[field]
+        else:
+            return self.data[field]
 
 
 class manage_subhalo:
