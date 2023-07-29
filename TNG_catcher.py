@@ -420,24 +420,32 @@ class plot_tools:
             )
             return R
         else:
-            raise ValueError("To use this method, Masses must be in the data in order to calculate the moment of inertia tensor.\nIt is possible to compute another physical quantity disguised as Masses, but this is a deprecated practice.")
-    
+            raise ValueError(
+                "To use this method, Masses must be in the data in order to calculate the moment of inertia tensor.\nIt is possible to compute another physical quantity disguised as Masses, but this is a deprecated practice."
+            )
+
     def set_faceon(self):
         if self.__rotation_ok:
             positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
             self.data["x"], self.data["y"], self.data["z"] = self.calc_rot() @ positions
-    
+
     def set_edgeon(self):
         if self.__rotation_ok:
             positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
             self.data["x"], self.data["y"], self.data["z"] = self.calc_rot() @ positions
             self.rot_x(90)
-    
-    def output(self,field):
+
+    def output(self, field=False):
         if self.__rotation_ok:
-            return self.data["x"], self.data["y"], self.data["z"], self.data[field]
+            if field:
+                return self.data["x"], self.data["y"], self.data["z"]
+            else:
+                return self.data["x"], self.data["y"], self.data["z"], self.data[field]
         else:
-            return self.data[field]
+            if field:
+                return None
+            else:
+                return self.data[field]
 
 
 class manage_subhalo:
