@@ -170,6 +170,36 @@ class extract_subhalo_data:
                     df_dict[j] = np.array(sunhaloData["GFM_Metals"].T[8])
                 elif j == "MetalTotal":
                     df_dict[j] = np.array(sunhaloData["GFM_Metals"].T[9])
+                elif j == "SNIa":
+                    df_dict[j] = np.array(sunhaloData["GFM_MetalsTagged"].T[0])
+                elif j == "SNII":
+                    df_dict[j] = np.array(sunhaloData["GFM_MetalsTagged"].T[1])
+                elif j == "AGB":
+                    df_dict[j] = np.array(sunhaloData["GFM_MetalsTagged"].T[2])
+                elif j == "NSNS":
+                    df_dict[j] = np.array(sunhaloData["GFM_MetalsTagged"].T[3])
+                elif j == "FeSNIa":
+                    df_dict[j] = np.array(sunhaloData["GFM_MetalsTagged"].T[4])
+                elif j == "FeSNII":
+                    df_dict[j] = np.array(sunhaloData["GFM_MetalsTagged"].T[5])
+                elif j == "vx":
+                    df_dict[j] = np.array(sunhaloData["Velocities"].T[0])
+                elif j == "vy":
+                    df_dict[j] = np.array(sunhaloData["Velocities"].T[1])
+                elif j == "vz":
+                    df_dict[j] = np.array(sunhaloData["Velocities"].T[2])
+                elif j == "magx":
+                    df_dict[j] = np.array(sunhaloData["MagneticField"].T[0])
+                elif j == "magy":
+                    df_dict = np.array(sunhaloData["MagneticField"].T[1])
+                elif j == "magz":
+                    df_dict = np.array(sunhaloData["MagneticField"].T[2])
+                elif j == "CMx":
+                    df_dict[j] = np.array(sunhaloData["CenterOfMass"].T[0])
+                elif j == "CMy":
+                    df_dict[j] = np.array(sunhaloData["CenterOfMass"].T[1])
+                elif j == "CMz":
+                    df_dict[j] = np.array(sunhaloData["CenterOfMass"].T[2])
                 else:
                     df_dict[j] = np.array(sunhaloData[j])
 
