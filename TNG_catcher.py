@@ -68,7 +68,7 @@ class extract_subhalo_data:
         else:
             self.fields = fields
         self.__in_coordinates = False
-        all_fields_gas = []
+        _fields = []
         for i in self.fields:
             if i == "Coordinates":
                 _fields.append("x")
