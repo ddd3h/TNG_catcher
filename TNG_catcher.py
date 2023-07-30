@@ -68,7 +68,7 @@ class extract_subhalo_data:
         else:
             self.fields = fields
         self.__in_coordinates = False
-        _fields = []
+        all_fields_gas = []
         for i in self.fields:
             if i == "Coordinates":
                 _fields.append("x")
@@ -88,6 +88,18 @@ class extract_subhalo_data:
                     "Fe",
                     "MetalTotal",
                 ]:
+                    _fields.append(f"{j}")
+            elif i == "GFM_MetalsTagged":
+                for j in ["SNIa", "SNII", "AGB", "NSNS", "FeSNIa", "FeSNII"]:
+                    _fields.append(f"{j}")
+            elif i == "Velocities":
+                for j in ["vx", "vy", "vz"]:
+                    _fields.append(f"{j}")
+            elif i == "MagneticField":
+                for j in ["magx", "magy", "magz"]:
+                    _fields.append(f"{j}")
+            elif i == "CenterOfMass":
+                for j in ["CMx", "CMy", "CMz"]:
                     _fields.append(f"{j}")
             else:
                 _fields.append(i)
