@@ -479,12 +479,12 @@ class plot_tools:
 
     def output(self, field=False):
         if self.__rotation_ok:
-            if field:
+            if not field:
                 return self.data["x"], self.data["y"], self.data["z"]
             else:
                 return self.data["x"], self.data["y"], self.data["z"], self.data[field]
         else:
-            if field:
+            if not field:
                 return None
             else:
                 return self.data[field]
