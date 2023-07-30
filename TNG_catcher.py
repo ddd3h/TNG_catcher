@@ -203,9 +203,9 @@ class extract_subhalo_data:
                 elif j == "magx":
                     df_dict[j] = np.array(sunhaloData["MagneticField"].T[0])
                 elif j == "magy":
-                    df_dict = np.array(sunhaloData["MagneticField"].T[1])
+                    df_dict[j] = np.array(sunhaloData["MagneticField"].T[1])
                 elif j == "magz":
-                    df_dict = np.array(sunhaloData["MagneticField"].T[2])
+                    df_dict[j] = np.array(sunhaloData["MagneticField"].T[2])
                 elif j == "CMx":
                     df_dict[j] = np.array(sunhaloData["CenterOfMass"].T[0])
                 elif j == "CMy":
