@@ -477,17 +477,17 @@ class plot_tools:
             self.data["x"], self.data["y"], self.data["z"] = self.calc_rot() @ positions
             self.rot_x(90)
 
-    def output(self, field=False):
+    def output(self, *field):
         if self.__rotation_ok:
-            if not field:
+            if len(field) == 0:
                 return self.data["x"], self.data["y"], self.data["z"]
             else:
-                return self.data["x"], self.data["y"], self.data["z"], self.data[field]
+                return (self.data["x"], self.data["y"], self.data["z"]) + tuple([self.data[field[i]] for i in range(len(field))])
         else:
-            if not field:
+            if len(field) == 0:
                 return None
             else:
-                return self.data[field]
+                return (self.data[field[i]] for i in range(len(field)))
 
 
 class manage_subhalo:
