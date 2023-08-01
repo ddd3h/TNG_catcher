@@ -270,11 +270,11 @@ class plot_tools:
         # self.__file_format = data.split(".")[-1]
 
     def simple_plot(self, x, y, z, bins=301, log=True, fast=False, savefig=""):
-        x, y, z = self.data[x], self.data[y], self.data[z]
         if z in ["Density"]:
             print(
                 "Because it is not a quantifiable variable, what is drawn is not exactness."
             )
+        x, y, z = self.data[x], self.data[y], self.data[z]
         xbins = np.linspace(x.min(), x.max(), bins)
         ybins = np.linspace(y.min(), y.max(), bins)
         hist, xed, yed = np.histogram2d(x, y, bins=(xbins, ybins), weights=z)
