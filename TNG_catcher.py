@@ -488,7 +488,11 @@ class plot_tools:
                 return None
             else:
                 return (self.data[field[i]] for i in range(len(field)))
-
+    
+    def show(self):
+        print("The physical quantities incorporated are as follows.")
+        for i in self.data:
+            print(i)
 
 class manage_subhalo:
     def __init__(self, basePath):
