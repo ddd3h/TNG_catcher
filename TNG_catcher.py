@@ -217,7 +217,7 @@ class extract_subhalo_data:
 
             df = pd.DataFrame(df_dict)
 
-            if cut:
+            if not cut:
                 pass
             else:
                 df = df[
