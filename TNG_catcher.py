@@ -424,7 +424,7 @@ class plot_tools:
             self.data[i] = self.data[i][:n]
         print("Cut data.")
 
-    def calc_rot(self, n=400_000):
+    def calc_rot(self, n=200_000):
         if self.__rotation_ok and "Masses" in self.data.keys():
             if n > len(self.data["Masses"]):
                 n = len(self.data["Masses"])
