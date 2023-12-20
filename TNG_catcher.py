@@ -424,6 +424,14 @@ class plot_tools:
             self.data[i] = self.data[i][:n]
         print("Cut data.")
 
+    def cut_data_by_radius(self, cm, radius):
+        x, y, z = self.data["x"], self.data["y"], self.data["z"]
+        x, y, z = x - cm[0], y - cm[1], z - cm[2]
+        r = np.sqrt(x**2 + y**2 + z**2)
+        for i in self.data.keys():
+            self.data[i] = self.data[i][r < radius]
+        print("Cut data by radius.")
+        
     def calc_rot(self, n=200_000):
         if self.__rotation_ok and "Masses" in self.data.keys():
             if n > len(self.data["Masses"]):
