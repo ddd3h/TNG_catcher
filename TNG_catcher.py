@@ -502,6 +502,48 @@ class plot_tools:
         for i in self.data:
             print(i)
 
+    def calc_virial_radius(self, cm, subhalomass):
+        if self.__rotation_ok and all(
+            elem in self.data
+            for elem in ("Masses", "SubfindDMDensity", "SubfindDensity")
+        ):
+            cmx, cmy, cmz = cm
+            x, y, z, m, density_DM, density_total = (
+                self.data["x"],
+                self.data["y"],
+                self.data["z"],
+                self.data["Masses"],
+                self.data["SubfindDMDensity"],
+                self.data["SubfindDensity"],
+            )
+            
+            r = np.sqrt((x - cmx) ** 2 + (y - cmy) ** 2 + (z - cmz) ** 2)
+            
+            dif = density_total - density_DM
+            NA_Data = np.where(dif == 0.0)
+            
+            dif = np.delete(dif, NA_Data, 0)
+            density_total = np.delete(density_total, NA_Data, 0)
+            m = np.delete(m, NA_Data, 0)
+            r = np.delete(r, NA_Data, 0)
+            m_t = density_total * m / dif
+            
+            R, m_t = np.sort(r), m_t[np.argsort(r)]
+            h = 0.6774
+            cum_m = np.cumsum(m_t)
+            cum_m = cum_m * subhalomass / (cum_m[-1]/h)
+            _r = (
+                2.1
+                * (cum_m * 10**10 / h / 10**15) ** (1 / 3)
+                * (h / 0.7) ** (-2 / 3)
+                * 10**3
+            )
+            min_index = np.argmin((R / h - _r) ** 2)
+            viri = (R / h)[min_index]
+            return viri
+        else:
+            print("Masses or Density is not in the data.")
+
 class manage_subhalo:
     def __init__(self, basePath):
         self.files_list = glob.glob(basePath + "/*")
