@@ -485,6 +485,21 @@ class plot_tools:
             self.data["x"], self.data["y"], self.data["z"] = self.calc_rot() @ positions
             self.rot_x(90)
 
+    def set_edgeon_random(self):
+        if self.__rotation_ok:
+            positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
+            phi = np.random.uniform(0, 2 * np.pi)
+            random_rot = np.array(
+                [
+                    [np.cos(phi), np.sin(phi), 0],
+                    [0, 0, 1],
+                    [np.sin(phi), -np.cos(phi), 0],
+                ]
+            )
+            self.data["x"], self.data["y"], self.data["z"] = (
+                random_rot @ self.calc_rot() @ positions
+            )
+feat: function of setting edgeon by random
     def output(self, *field):
         if self.__rotation_ok:
             if len(field) == 0:
