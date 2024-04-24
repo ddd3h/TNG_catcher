@@ -335,27 +335,27 @@ class plot_tools:
         if self.__rotation_ok:
             positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
             self.data["x"], self.data["y"], self.data["z"] = (
-                self.__rot_x(theta) @ positions
+                self.calc_rot_x(theta) @ positions
             )
-            self.__rotation_record.append(self.__rot_x(theta))
+            self.__rotation_record.append(self.calc_rot_x(theta))
 
     def rot_y(self, theta):
         if self.__rotation_ok:
             positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
             self.data["x"], self.data["y"], self.data["z"] = (
-                self.__rot_y(theta) @ positions
+                self.calc_rot_y(theta) @ positions
             )
-            self.__rotation_record.append(self.__rot_y(theta))
+            self.__rotation_record.append(self.calc_rot_y(theta))
 
     def rot_z(self, theta):
         if self.__rotation_ok:
             positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
             self.data["x"], self.data["y"], self.data["z"] = (
-                self.__rot_z(theta) @ positions
+                self.calc_rot_z(theta) @ positions
             )
-            self.__rotation_record.append(self.__rot_z(theta))
+            self.__rotation_record.append(self.calc_rot_z(theta))
 
-    def __rot_x(self, theta):
+    def calc_rot_x(self, theta):
         theta = np.radians(theta)
         return np.array(
             [
@@ -365,7 +365,7 @@ class plot_tools:
             ]
         )
 
-    def __rot_y(self, theta):
+    def calc_rot_y(self, theta):
         theta = np.radians(theta)
         return np.array(
             [
@@ -375,7 +375,7 @@ class plot_tools:
             ]
         )
 
-    def __rot_z(self, theta):
+    def calc_rot_z(self, theta):
         theta = np.radians(theta)
         return np.array(
             [
@@ -389,7 +389,7 @@ class plot_tools:
         if self.__rotation_ok:
             a = np.eye(3)
             for i in self.__rotation_record:
-                a = a @ i
+                a = i @ a
             np.save(filename, a)
 
     def save_npz(self, filename):
@@ -409,6 +409,8 @@ class plot_tools:
     def load_rot(self, rotation_data):
         if self.__rotation_ok:
             positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
+            if type(rotation_data) == str:
+                rotation_data = np.load(rotation_data)
             self.data["x"], self.data["y"], self.data["z"] = rotation_data @ positions
             self.__rotation_record.append(rotation_data)
 
@@ -416,7 +418,7 @@ class plot_tools:
         if self.__rotation_ok:
             a = np.eye(3)
             for i in self.__rotation_record:
-                a = a @ i
+                a = i @ a
             return a
 
     def cut_data(self, n):
@@ -431,7 +433,7 @@ class plot_tools:
         for i in self.data.keys():
             self.data[i] = self.data[i][r < radius]
         print("Cut data by radius.")
-        
+
     def calc_rot(self, n=200_000):
         if self.__rotation_ok and "Masses" in self.data.keys():
             if n > len(self.data["Masses"]):
@@ -477,12 +479,16 @@ class plot_tools:
     def set_faceon(self):
         if self.__rotation_ok:
             positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
-            self.data["x"], self.data["y"], self.data["z"] = self.calc_rot() @ positions
+            rot = self.calc_rot()
+            self.data["x"], self.data["y"], self.data["z"] = rot @ positions
+            self.__rotation_record.append(rot)
 
     def set_edgeon(self):
         if self.__rotation_ok:
             positions = np.array([self.data["x"], self.data["y"], self.data["z"]])
+            rot = self.calc_rot()
             self.data["x"], self.data["y"], self.data["z"] = self.calc_rot() @ positions
+            self.__rotation_record.append(rot)
             self.rot_x(90)
 
     def set_edgeon_random(self):
@@ -499,19 +505,21 @@ class plot_tools:
             self.data["x"], self.data["y"], self.data["z"] = (
                 random_rot @ self.calc_rot() @ positions
             )
-feat: function of setting edgeon by random
+
     def output(self, *field):
         if self.__rotation_ok:
             if len(field) == 0:
                 return self.data["x"], self.data["y"], self.data["z"]
             else:
-                return (self.data["x"], self.data["y"], self.data["z"]) + tuple([self.data[field[i]] for i in range(len(field))])
+                return (self.data["x"], self.data["y"], self.data["z"]) + tuple(
+                    [self.data[field[i]] for i in range(len(field))]
+                )
         else:
             if len(field) == 0:
                 return None
             else:
                 return (self.data[field[i]] for i in range(len(field)))
-    
+
     def show(self):
         print("The physical quantities incorporated are as follows.")
         for i in self.data:
@@ -563,3 +571,7 @@ class manage_subhalo:
     def __init__(self, basePath):
         self.files_list = glob.glob(basePath + "/*")
         self.files_list.sort()
+
+# class analysis:
+#     def __init__(self, basePath):
+        
